@@ -56,6 +56,7 @@ jobs:
                echo ${CIRCLE_BRANCH}
 
 workflows:
-  build-storefront:
+  version: 2.1
+  build.prod:
     jobs:
-      - build-admin
+      - build-storefront
