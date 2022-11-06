@@ -1,0 +1,61 @@
+version: 2.1
+
+jobs:
+  build-storefront:
+    docker:
+      - images: cimg/node:18.11.0
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - restore_cache:
+          keys:
+            - deps-v1--{{ checksum "my-medusa-starter/package-lock.json" }}
+            - deps-v1--
+
+      - run:
+        name: "build Storefront Deps"
+        command: |
+          cd my-medusa-starter &&
+          npm i
+
+      - save_cache:
+        paths:
+          - my-medusa-starter/node-modules
+        key: deps-v1--{{ checksum "my-medusa-starter/package-lock.json" }}
+
+    build-admin:
+       docker:
+         - image: cimg/node:18.11.0
+       steps:
+         - checkout
+         - setup_remote_docker:
+             docker_layer_caching: true
+         - restore_cache:
+             keys:
+               - deps-v1--{{ checksum "my-medusa-starter/package-lock.json" }}
+               - deps-v1--
+
+         - run:
+             name: "build admin Deps"
+             command: |
+               cd medusa-admin &&
+               npm i
+
+         - run:
+             name: "What branch am I on?"
+             command: |
+               echo $CIRCLE_BRANCH
+
+         - run:
+             name: "Branch?"
+             command: |
+               echo ${CIRCLE_BRANCH}
+
+workflows:
+  build-storefront:
+    jobs:
+      - build-admin
