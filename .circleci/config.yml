@@ -50,11 +50,6 @@ jobs:
           command: |
             echo $CIRCLE_BRANCH
 
-      - run:
-          name: "Branch?"
-          command: |
-            echo ${CIRCLE_BRANCH}
-
 workflows:
   medusa:
     jobs:
