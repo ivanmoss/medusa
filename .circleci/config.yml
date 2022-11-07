@@ -56,7 +56,7 @@ jobs:
             echo ${CIRCLE_BRANCH}
 
 workflows:
-  build_prod:
+  medusa:
     jobs:
       - build-storefront
       - build-admin
