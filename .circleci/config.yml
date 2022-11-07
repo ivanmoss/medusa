@@ -17,15 +17,15 @@ jobs:
             - deps-v1--
 
       - run:
-        name: "build Storefront Deps"
-        command: |
-          cd my-medusa-starter &&
-          npm i
+          name: "build Storefront Deps"
+          command: |
+            cd my-medusa-starter &&
+            npm i
 
       - save_cache:
-        paths:
-          - my-medusa-starter/node-modules
-        key: deps-v1--{{ checksum "my-medusa-starter/package-lock.json" }}
+          paths:
+            - my-medusa-starter/node-modules
+          key: deps-v1--{{ checksum "my-medusa-starter/package-lock.json" }}
 
   build-admin:
     docker:
@@ -55,3 +55,4 @@ workflows:
     jobs:
       - build-storefront
       - build-admin
+
